@@ -1,13 +1,14 @@
 import { fetchBlogs } from "@/lib/service"
+import BlogListItem from "./blog-list-item"
 
 export default async function BlogList() {
   const blogs = await fetchBlogs()
 
   return (
-    <div>
+    <section>
       {blogs.map((item) => (
-        <h3 key={item.id}>{item.title}</h3>
+        <BlogListItem key={item.id} blog={item} />
       ))}
-    </div>
+    </section>
   )
 }

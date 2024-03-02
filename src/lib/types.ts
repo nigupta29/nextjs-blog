@@ -21,16 +21,14 @@ export const blogSchema = z.object({
     .min(100, {
       message: "Content must be more than 100 or more characters long."
     }),
-  createdAt: z
-    .string({
-      required_error: `Created At is required`,
-      invalid_type_error: `Created At should be a Date type`
-    })
-    .datetime({ message: `Created At should be a Date type` }),
-  updatedAt: z
-    .string({
-      required_error: `Updated At is required`,
-      invalid_type_error: `Updated At should be a Date type`
-    })
-    .datetime({ message: `Updated At should be a Date type` })
+  createdAt: z.date({
+    required_error: "Blog's created at date-time is required",
+    invalid_type_error: "Blog's created at is not a date!"
+  }),
+  updatedAt: z.date({
+    required_error: "Blog's updated at date-time is required",
+    invalid_type_error: "Blog's updated at is not a date!"
+  })
 })
+
+export type BlogSchemaType = z.infer<typeof blogSchema>
