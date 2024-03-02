@@ -20,5 +20,17 @@ export const blogSchema = z.object({
     })
     .min(100, {
       message: "Content must be more than 100 or more characters long."
+    }),
+  createdAt: z
+    .string({
+      required_error: `Created At is required`,
+      invalid_type_error: `Created At should be a Date type`
     })
+    .datetime({ message: `Created At should be a Date type` }),
+  updatedAt: z
+    .string({
+      required_error: `Updated At is required`,
+      invalid_type_error: `Updated At should be a Date type`
+    })
+    .datetime({ message: `Updated At should be a Date type` })
 })

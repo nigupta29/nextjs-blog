@@ -12,8 +12,11 @@ export type CreateFormState =
       message?: string | null
     }
   | undefined
-  
-const createBlogSchema = blogSchema.omit({ id: true })
+
+const createBlogSchema = blogSchema.pick({
+  title: true,
+  content: true
+})
 
 export async function createBlog(
   prevState: CreateFormState,
