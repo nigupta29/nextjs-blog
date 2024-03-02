@@ -5,7 +5,7 @@ export default async function BlogList() {
   const blogs = await fetchBlogs()
 
   return (
-    <section>
+    <section className="grid grid-cols-1 gap-5 md:grid-cols-2">
       {blogs.map((item) => (
         <BlogListItem key={item.id} blog={item} />
       ))}
