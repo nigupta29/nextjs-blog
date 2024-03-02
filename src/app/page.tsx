@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button"
+import BlogList from "@/components/blogs/blog-list"
 
 export default function Home() {
   return (
-    <div>
-      <Button>Working?</Button>
-    </div>
+    <>
+      <BlogList />
+    </>
   )
 }
