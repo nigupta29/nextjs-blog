@@ -1,7 +1,9 @@
 "use server"
 
+import { revalidatePath } from "next/cache"
 import prisma from "./db"
 import { blogSchema } from "./types"
+import { redirect } from "next/navigation"
 
 export type CreateFormState =
   | {
@@ -43,7 +45,7 @@ export async function createBlog(
       message: "Error while creating blog!"
     }
   }
-
-  //TODO: do something after adding blog to db
-  console.log(validatedFields.data)
+  
+  revalidatePath("/")
+  redirect("/")
 }
