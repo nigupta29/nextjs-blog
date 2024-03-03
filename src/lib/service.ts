@@ -11,3 +11,15 @@ export async function fetchBlogs() {
     throw new Error("Failed to fetch blogs.")
   }
 }
+
+export async function fetchBlogById(id: string) {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    
+    const blog = await prisma.blog.findUniqueOrThrow({ where: { id } })
+    return blog
+  } catch (error) {
+    console.error("Prisma Error:", error)
+    throw new Error("Failed to fetch blog.")
+  }
+}
