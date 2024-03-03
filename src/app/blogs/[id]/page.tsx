@@ -2,6 +2,7 @@ import Container from "@/components/layout/container"
 import { fetchBlogById } from "@/lib/service"
 import { getRelativeDate } from "@/lib/utils"
 import { Metadata } from "next"
+import { notFound } from "next/navigation"
 
 type Props = {
   params: { id: string }
@@ -14,6 +15,8 @@ export const metadata: Metadata = {
 
 export default async function Page({ params }: Props) {
   const blog = await fetchBlogById(params.id)
+
+  if (!blog) notFound()
 
   return (
     <Container>
