@@ -1,8 +1,18 @@
 import Container from "@/components/layout/container"
 import { fetchBlogById } from "@/lib/service"
 import { getRelativeDate } from "@/lib/utils"
+import { Metadata } from "next"
 
-export default async function Page({ params }: { params: { id: string } }) {
+type Props = {
+  params: { id: string }
+}
+
+// TODO: To implement a dynamic Metadata
+export const metadata: Metadata = {
+  title: "Blog"
+}
+
+export default async function Page({ params }: Props) {
   const blog = await fetchBlogById(params.id)
 
   return (

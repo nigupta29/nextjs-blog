@@ -6,7 +6,10 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Writespace",
+  title: {
+    template: "%s | Workspace",
+    default: "Home | Workspace"
+  },
   description: "Blog app built with NextJS and Prisma"
 }
 
