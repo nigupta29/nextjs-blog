@@ -5,16 +5,16 @@ import Logo from "./logo"
 
 export default function Navbar() {
   return (
-    <header className='px-5 py-3 bg-secondary/50'>
-      <div className='flex items-center justify-between'>
+    <header className="bg-secondary/90 px-5 py-3">
+      <div className="flex items-center justify-between">
         <Logo />
 
         <Button
           asChild
           variant={"link"}
-          className='items-start text-base gap-1'
+          className="items-start gap-1 text-base"
         >
-          <Link href='/blogs/create'>
+          <Link href="/blogs/create">
             <SquarePenIcon size={20} />
             <p>Write</p>
           </Link>

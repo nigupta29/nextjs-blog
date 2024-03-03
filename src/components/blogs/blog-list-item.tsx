@@ -18,7 +18,7 @@ export default function BlogListItem({ blog }: { blog: BlogSchemaType }) {
         <CardTitle>{blog.title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-grow">
-        <p className="text-muted-foreground">{blog.content.slice(0, 150)}...</p>
+        <p className="text-muted-foreground">{blog.content.slice(0,100)}...</p>
       </CardContent>
       <CardFooter className="items-end justify-between">
         <Button size={"sm"} asChild>
