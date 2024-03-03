@@ -4,7 +4,7 @@ export async function fetchBlogs() {
   try {
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    const blogs = await prisma.blog.findMany()
+    const blogs = await prisma.blog.findMany({ orderBy: { createdAt: "desc" } })
     return blogs
   } catch (error) {
     console.error("Prisma Error:", error)
@@ -15,7 +15,7 @@ export async function fetchBlogs() {
 export async function fetchBlogById(id: string) {
   try {
     await new Promise((resolve) => setTimeout(resolve, 2000))
-    
+
     const blog = await prisma.blog.findUniqueOrThrow({ where: { id } })
     return blog
   } catch (error) {
