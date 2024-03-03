@@ -1,17 +1,13 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Card, CardContent, CardFooter, CardHeader } from "../ui/card"
+import { Skeleton } from "../ui/skeleton"
 
-export default function Loading() {
-  return (
-    <section className="grid grid-cols-1 gap-5 md:grid-cols-2">
-      {Array.from({ length: 6 }).map((_, index) => (
-        <BlogItemSkeleton key={index} />
-      ))}
-    </section>
-  )
+export const BlogsSkeleton = () => {
+  return Array.from({ length: 6 }).map((_, index) => (
+    <BlogItemSkeleton key={index} />
+  ))
 }
 
-function BlogItemSkeleton() {
+export const BlogItemSkeleton = () => {
   return (
     <Card className="h-[250px] md:h-[230px]">
       <CardHeader>
