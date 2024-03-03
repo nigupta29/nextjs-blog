@@ -22,7 +22,7 @@ export default function BlogListItem({ blog }: { blog: BlogSchemaType }) {
       </CardContent>
       <CardFooter className="items-end justify-between">
         <Button size={"sm"} asChild>
-          <Link href="/">
+          <Link href={`/blogs/${blog.id}`}>
             <p>Read More</p>
             <ArrowUpRightIcon />
           </Link>
