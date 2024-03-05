@@ -39,8 +39,11 @@ export async function createBlog(
     }
   }
 
+  let id: string = ""
+
   try {
-    await prisma.blog.create({ data: validatedFields.data })
+    const blog = await prisma.blog.create({ data: validatedFields.data })
+    id = blog.id
   } catch (error) {
     return {
       message: "Error while creating blog!"
@@ -48,5 +51,5 @@ export async function createBlog(
   }
 
   revalidatePath("/")
-  redirect("/")
+  redirect(`/blogs/${id}`)
 }

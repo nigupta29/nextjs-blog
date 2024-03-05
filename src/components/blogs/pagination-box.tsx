@@ -8,8 +8,8 @@ export default async function PaginationBox({ page }: { page: number }) {
   const totalPages = Math.ceil(totalBlogs / POSTS_PER_PAGE)
 
   return (
-    <div className="flex items-center justify-center">
-      <Button variant={"outline"} asChild disabled={page <= 1}>
+    <div className="flex items-center justify-center space-x-2">
+      <Button variant={"outline"} asChild>
         <Link href={page > 1 ? `?page=${page - 1}` : ""}>
           <ChevronLeft className="h-4 w-4" />
           <span className="align-middle">Previous</span>

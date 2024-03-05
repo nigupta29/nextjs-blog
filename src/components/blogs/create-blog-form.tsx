@@ -7,7 +7,7 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { CreateFormState, createBlog } from "@/lib/actions"
-import { useFormState } from "react-dom"
+import { useFormState, useFormStatus } from "react-dom"
 import CategorySelectItems from "../category/category-select-items"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
@@ -17,6 +17,7 @@ import { Textarea } from "../ui/textarea"
 export default function CreateBlogForm() {
   const initialState: CreateFormState = { message: null, errors: {} }
   const [state, dispatch] = useFormState(createBlog, initialState)
+  const { pending } = useFormStatus()
 
   return (
     <form action={dispatch} className="space-y-4">
@@ -83,7 +84,9 @@ export default function CreateBlogForm() {
       </div>
 
       <div className="space-x-2">
-        <Button type="submit">Publish</Button>
+        <Button type="submit" aria-disabled={pending}>
+          Publish
+        </Button>
         <Button type="reset" variant={"outline"}>
           Clear
         </Button>
