@@ -1,5 +1,22 @@
 import { z } from "zod"
 
+export const categorySchema = z.object({
+  id: z.string({
+    required_error: "Category Id is required",
+    invalid_type_error: "Invalid type for the Category ID"
+  }),
+  title: z.string({
+    required_error: "Category Title is required",
+    invalid_type_error: "Category Title should be type of string"
+  }),
+  slug: z.string({
+    required_error: "Category Slug is required",
+    invalid_type_error: "Category Slug should be type of string"
+  })
+})
+
+export type CategorySchemaType = z.infer<typeof categorySchema>
+
 export const blogSchema = z.object({
   id: z.string({
     required_error: "Blog Id is required",
@@ -28,7 +45,12 @@ export const blogSchema = z.object({
   updatedAt: z.date({
     required_error: "Blog's updated at date-time is required",
     invalid_type_error: "Blog's updated at is not a date!"
-  })
+  }),
+  categoryId: z.string({
+    required_error: "Category Id is required",
+    invalid_type_error: "Invalid type for the Category ID"
+  }),
+  category: categorySchema
 })
 
 export type BlogSchemaType = z.infer<typeof blogSchema>

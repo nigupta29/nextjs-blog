@@ -4,7 +4,8 @@ export async function fetchBlogs() {
   try {
     // await new Promise((resolve) => setTimeout(resolve, 2000))
     const blogs = await prisma.blog.findMany({
-      orderBy: { createdAt: "desc" }
+      orderBy: { createdAt: "desc" },
+      include: { category: true }
     })
     return blogs
   } catch (error) {
@@ -16,7 +17,10 @@ export async function fetchBlogs() {
 export async function fetchBlogById(id: string) {
   try {
     // await new Promise((resolve) => setTimeout(resolve, 2000))
-    const blog = await prisma.blog.findUnique({ where: { id } })
+    const blog = await prisma.blog.findUnique({
+      where: { id },
+      include: { category: true }
+    })
     return blog
   } catch (error) {
     console.error("Prisma Error:", error)
