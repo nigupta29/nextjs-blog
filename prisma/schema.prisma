@@ -8,9 +8,18 @@ datasource db {
 }
 
 model Blog {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  content    String
+  categoryId String   @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  category   Category @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  slug  String @unique
+  title String
+  Blogs Blog[]
 }
