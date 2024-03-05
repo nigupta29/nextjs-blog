@@ -18,10 +18,12 @@ export const categorySchema = z.object({
 export type CategorySchemaType = z.infer<typeof categorySchema>
 
 export const blogSchema = z.object({
-  id: z.string({
-    required_error: "Blog Id is required",
-    invalid_type_error: "Invalid type for the Blog ID"
-  }),
+  id: z
+    .string({
+      required_error: "Blog Id is required",
+      invalid_type_error: "Invalid type for the Blog ID"
+    })
+    .length(24, "Invalid Blog ID"),
   title: z
     .string({
       required_error: "Blog Title is required",
@@ -46,10 +48,12 @@ export const blogSchema = z.object({
     required_error: "Blog's updated at date-time is required",
     invalid_type_error: "Blog's updated at is not a date!"
   }),
-  categoryId: z.string({
-    required_error: "Category Id is required",
-    invalid_type_error: "Invalid type for the Category ID"
-  }),
+  categoryId: z
+    .string({
+      required_error: "Category Id is required",
+      invalid_type_error: "Invalid type for the Category ID"
+    })
+    .length(24, "Invalid Category ID"),
   category: categorySchema
 })
 

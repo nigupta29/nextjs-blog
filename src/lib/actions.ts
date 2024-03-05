@@ -1,15 +1,16 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 import prisma from "./db"
 import { blogSchema } from "./types"
-import { redirect } from "next/navigation"
 
 export type CreateFormState =
   | {
       errors?: {
         title?: string[]
         content?: string[]
+        categoryId?: string[]
       }
       message?: string | null
     }
@@ -17,7 +18,8 @@ export type CreateFormState =
 
 const createBlogSchema = blogSchema.pick({
   title: true,
-  content: true
+  content: true,
+  categoryId: true
 })
 
 export async function createBlog(
@@ -26,7 +28,8 @@ export async function createBlog(
 ) {
   const validatedFields = createBlogSchema.safeParse({
     title: formData.get("title"),
-    content: formData.get("content")
+    content: formData.get("content"),
+    categoryId: formData.get("categoryId")
   })
 
   if (!validatedFields.success) {
@@ -36,16 +39,14 @@ export async function createBlog(
     }
   }
 
-  const { title, content } = validatedFields.data
-
   try {
-    await prisma.blog.create({ data: { title, content } })
+    await prisma.blog.create({ data: validatedFields.data })
   } catch (error) {
     return {
       message: "Error while creating blog!"
     }
   }
-  
+
   revalidatePath("/")
   redirect("/")
 }

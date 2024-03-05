@@ -1,7 +1,14 @@
 "use client"
 
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select"
 import { CreateFormState, createBlog } from "@/lib/actions"
 import { useFormState } from "react-dom"
+import CategorySelectItems from "../category/category-select-items"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
@@ -14,9 +21,7 @@ export default function CreateBlogForm() {
   return (
     <form action={dispatch} className="space-y-4">
       <h3 className="text-3xl font-semibold">Write your thoughts!</h3>
-      {state?.message && (
-        <p className="text-sm text-destructive">{state.message}</p>
-      )}
+
       <div className="space-y-2">
         <Label htmlFor="title">Title</Label>
         <Input
@@ -34,6 +39,31 @@ export default function CreateBlogForm() {
           ))}
         </div>
       </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="categoryId">Category</Label>
+        <Select name="categoryId">
+          <SelectTrigger>
+            <SelectValue
+              placeholder="Select a category"
+              aria-describedby="categoryId-error"
+              id="categoryId"
+              className="capitalize"
+            />
+          </SelectTrigger>
+          <SelectContent>
+            <CategorySelectItems />
+          </SelectContent>
+        </Select>
+        <div id="categoryId-error" aria-live="polite" aria-atomic="true">
+          {state?.errors?.categoryId?.map((error: string) => (
+            <p className="text-sm text-destructive" key={error}>
+              {error}
+            </p>
+          ))}
+        </div>
+      </div>
+
       <div className="space-y-2">
         <Label htmlFor="content">Content</Label>
         <Textarea
