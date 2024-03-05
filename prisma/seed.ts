@@ -1,36 +1,55 @@
+import { faker } from "@faker-js/faker"
 import { PrismaClient } from "@prisma/client"
+
 const prisma = new PrismaClient()
 
+const createSlug = (text: string) =>
+  text.toLowerCase().trim().replaceAll(" ", "-")
+
+const categoryData = [
+  "Technology",
+  "Travel",
+  "Cooking",
+  "Health and Wellness",
+  "Fashion",
+  "Sports",
+  "Science",
+  "Business and Finance",
+  "Entertainment"
+]
+
 async function main() {
-  await prisma.category.createMany({
-    data: [
-      { title: "Software Development", slug: "software-development" },
-      { title: "personal", slug: "personal" }
-    ]
+  /* Delete the current data in the DB */
+  await prisma.blog.deleteMany({})
+
+  /* Create different categories */
+  categoryData.forEach(async (item) => {
+    await prisma.category.upsert({
+      create: { title: item, slug: createSlug(item) },
+      update: { title: item, slug: createSlug(item) },
+      where: { slug: createSlug(item) }
+    })
   })
+  console.log("Categories Created")
 
-  const cats = await prisma.category.findMany()
+  /* Fetch all those categories */
+  const categories = await prisma.category.findMany()
 
-  const blogs = await prisma.blog.createMany({
-    data: [
-      {
-        title:
-          "9 Steps to Build a RESTful API with Node.js, MongoDB, and Express",
-        content:
-          "In this post, I’ll guide you through the process of creating a simple RESTful API using Node.js, MongoDB, and Express. Before starting, I’m assuming that you have Node.js, npm, MongoDB and VS Code installed on your machine. If you haven’t yet, then you can check the following: Installing Node.js Download MongoDB Download VS Code Let’s jump right into it!🚀 Step 1: Setting Up the Project Let’s create a new project folder to get started. Open your terminal and run the following commands one by one. mkdir my-first-restful-api cd my-first-restful-api This will create a new directory in your machine. RESTful API with Node.js, MongoDB, and Express Now, let’s initialize our project by running the follwing command in the terminal (make sure you’re into your newly created project folder). npm init The above command will walk you through creating a package.json file. Enter the details for the query and hit enter to go to the next query. Or you can run the below comman",
-        categoryId: cats[0].id as string
-      },
-      {
-        categoryId: cats[1].id as string,
-        title:
-          "9 Steps to Build a RESTful API with Node.js, MongoDB, and Express",
-        content:
-          "In this post, I’ll guide you through the process of creating a simple RESTful API using Node.js, MongoDB, and Express. Before starting, I’m assuming that you have Node.js, npm, MongoDB and VS Code installed on your machine. If you haven’t yet, then you can check the following: Installing Node.js Download MongoDB Download VS Code Let’s jump right into it!🚀 Step 1: Setting Up the Project Let’s create a new project folder to get started. Open your terminal and run the following commands one by one. mkdir my-first-restful-api cd my-first-restful-api This will create a new directory in your machine. RESTful API with Node.js, MongoDB, and Express Now, let’s initialize our project by running the follwing command in the terminal (make sure you’re into your newly created project folder). npm init The above command will walk you through creating a package.json file. Enter the details for the query and hit enter to go to the next query. Or you can run the below comman"
+  /* Create atleast 20 blogs */
+  for (let i = 1; i <= 20; i++) {
+    const title = faker.lorem.words(5)
+    const content = faker.lorem.paragraphs(30)
+
+    const blog = await prisma.blog.create({
+      data: {
+        title,
+        content,
+        categoryId: categories[Math.floor(Math.random() * categories.length)].id
       }
-    ]
-  })
+    })
 
-  console.log(blogs)
+    console.log("Created Blog for title " + blog.title)
+  }
 }
 main()
   .then(async () => {
