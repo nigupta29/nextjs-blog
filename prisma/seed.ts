@@ -20,7 +20,7 @@ const categoryData = [
 
 async function main() {
   /* Delete the current data in the DB */
-  await prisma.blog.deleteMany({})
+  // await prisma.blog.deleteMany({})
 
   /* Create different categories */
   categoryData.forEach(async (item) => {
@@ -35,8 +35,8 @@ async function main() {
   /* Fetch all those categories */
   const categories = await prisma.category.findMany()
 
-  /* Create atleast 20 blogs */
-  for (let i = 1; i <= 20; i++) {
+  /* Create blogs */
+  for (let i = 1; i <= 1; i++) {
     const title = faker.lorem.words(5)
     const content = faker.lorem.paragraphs(30)
 
@@ -51,6 +51,7 @@ async function main() {
     console.log("Created Blog for title " + blog.title)
   }
 }
+
 main()
   .then(async () => {
     await prisma.$disconnect()
