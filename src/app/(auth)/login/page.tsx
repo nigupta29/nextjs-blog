@@ -40,14 +40,13 @@ export default function Login() {
         const isLoggedIn = await signIn("credentials", {
           email,
           password,
-          callbackUrl: "/",
           redirect: false
         })
 
         if (isLoggedIn?.error) {
           setError(isLoggedIn.error)
         } else {
-          router.push(isLoggedIn?.url || "/")
+          router.push("/")
         }
       } catch (error) {
         setError("Something went wrong!")

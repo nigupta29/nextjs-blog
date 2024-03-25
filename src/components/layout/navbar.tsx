@@ -7,9 +7,6 @@ import { Button } from "../ui/button"
 
 export default function Navbar() {
   const { data } = useSession()
-
-  console.log(data)
-
   return (
     <div className="bg-secondary p-4">
       <div className="container mx-auto">

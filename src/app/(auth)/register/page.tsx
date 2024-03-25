@@ -15,10 +15,14 @@ import { Input } from "@/components/ui/input"
 import { RegisterSchemaType, registerSchema } from "@/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 
 export default function Register() {
+  const router = useRouter()
+
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
 
@@ -34,13 +38,23 @@ export default function Register() {
   })
 
   const onSubmit = async (values: RegisterSchemaType) => {
+    setSuccess("")
+    setError("")
+    
     startTransition(async () => {
-      setSuccess("")
-      setError("")
       try {
         await axios.post("/api/register", values)
         // TODO: to catch the axios error
+
+        const { email, password } = values
+        await signIn("credentials", {
+          email,
+          password,
+          callbackUrl: "/",
+          redirect: false
+        })
         setSuccess("Registration successful")
+        router.push("/")
       } catch (error) {
         setError("Registration failed. Please try again.")
       }

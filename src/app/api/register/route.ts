@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     const { email, name, password } = validatedFields.data
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    if (!(await checkUserExists(email))) {
+    if (await checkUserExists(email)) {
       return NextResponse.json(
         { message: "User Exists Already!" },
         { status: 403 }
