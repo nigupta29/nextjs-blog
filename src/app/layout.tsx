@@ -1,22 +1,22 @@
+import Providers from "@/components/layout/providers"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import Providers from "@/components/layout/providers"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Writespace",
-  description: "Blog app built with NextJS and Prisma",
+  description: "Blog app built with NextJS and Prisma"
 }
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <body className={inter.className}>
         <Providers>{children}</Providers>
       </body>

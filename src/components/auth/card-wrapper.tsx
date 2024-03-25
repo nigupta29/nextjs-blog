@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card"
 import { ReactNode } from "react"
 import ProvidersLogin from "./providers-login"
+import BackButton from "./back-button"
 
 type CardWrapperProps = {
   children: ReactNode
@@ -23,10 +24,15 @@ export default function CardWrapper({
   return (
     <Card className="mx-auto w-full max-w-xl">
       <CardHeader>
-        <CardTitle>{heading}</CardTitle>
-        <CardDescription>{subheading}</CardDescription>
+        <div className="flex items-end justify-between">
+          <div>
+            <CardTitle>{heading}</CardTitle>
+            <CardDescription>{subheading}</CardDescription>
+          </div>
+          <BackButton />
+        </div>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         {children}
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
