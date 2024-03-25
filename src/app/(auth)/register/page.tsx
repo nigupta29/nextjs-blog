@@ -1,5 +1,6 @@
 "use client"
 
+import AuthMessage from "@/components/auth/auth-message"
 import CardWrapper from "@/components/auth/card-wrapper"
 import { Button } from "@/components/ui/button"
 import {
@@ -14,28 +15,34 @@ import { Input } from "@/components/ui/input"
 import { RegisterSchemaType, registerSchema } from "@/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
-import { useTransition } from "react"
+import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 
 export default function Register() {
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+
   const [isPending, startTransition] = useTransition()
 
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: "Test",
-      email: "test@test.com",
-      password: "123456"
+      name: "",
+      email: "",
+      password: ""
     }
   })
 
-  const onSubmit = (values: RegisterSchemaType) => {
+  const onSubmit = async (values: RegisterSchemaType) => {
     startTransition(async () => {
+      setSuccess("")
+      setError("")
       try {
         await axios.post("/api/register", values)
-        
+        // TODO: to catch the axios error
+        setSuccess("Registration successful")
       } catch (error) {
-
+        setError("Registration failed. Please try again.")
       }
     })
   }
@@ -48,6 +55,8 @@ export default function Register() {
       href="/login"
     >
       <Form {...form}>
+        <AuthMessage type="error" message={error} />
+        <AuthMessage type="success" message={success} />
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
