@@ -1,3 +1,3 @@
 # NextJS | Blog
 
-Blog app built with NextJS and Prisma
+Blog app built with NextJS, Prisma and NextAuth
