@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { BanIcon } from "lucide-react"
 
 type Props = {
-  error: Error & { digest?: string }
+  error: Error
   reset: () => void
 }
 

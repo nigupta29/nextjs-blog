@@ -1,4 +1,3 @@
-import CreateBlogForm from "@/components/blogs/create-blog-form"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -6,5 +5,5 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  return <CreateBlogForm />
+  return <h3>Create vblog</h3>
 }
