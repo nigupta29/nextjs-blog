@@ -1,3 +1,5 @@
+import { checkUserExists } from "@/actions/user"
+import bcrypt from "bcryptjs"
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GithubProvider from "next-auth/providers/github"
@@ -9,30 +11,39 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: {
           label: "Email",
-          type: "text",
-          placeholder: "john.doe@gmail.com"
+          type: "email"
         },
         password: {
           label: "Password",
-          type: "text",
-          placeholder: "********"
+          type: "password"
         }
       },
-      async authorize(credentials: any) {
-        // do something in db
-
-        const user = {
-          id: "42",
-          email: "john.doe@gmail.com",
-          password: "123"
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Invalid credentials")
         }
 
-        if (
-          credentials?.email == user.email &&
-          credentials?.password == user.password
+        const user = await checkUserExists(credentials.email as string)
+
+        if (!user) {
+          throw new Error("Invalid credentials")
+        }
+
+        const isCorrectPassword = await bcrypt.compare(
+          credentials.password,
+          user.password
         )
-          return user
-        else return null
+
+        if (!isCorrectPassword) {
+          throw new Error("Invalid credentials")
+        }
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user?.image
+        }
       }
     }),
 
@@ -48,27 +59,11 @@ export const authOptions: NextAuthOptions = {
       }
     })
   ],
+
   secret: process.env.NEXTAUTH_SECRET,
 
-  callbacks: {
-    async jwt({ token, user }: any) {
-      if (user) {
-        token.role = user.role
-        token.uid = user.id
-      }
-      return token
-    },
-
-    async session({ session, token }: any) {
-      if (session?.user) {
-        session.user.id = token.uid
-        session.user.role = token.role
-      }
-      return session
-    }
-  },
-
   pages: {
-    signIn: "/login"
+    signIn: "/login",
+    newUser: "/register"
   }
 }

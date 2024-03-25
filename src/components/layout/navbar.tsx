@@ -1,11 +1,14 @@
-import { authOptions } from "@/lib/auth-options"
-import { getServerSession } from "next-auth"
+"use client"
+
+import { useSession } from "next-auth/react"
 import Link from "next/link"
+import LogoutButton from "../auth/logout-button"
 import { Button } from "../ui/button"
 
-export default async function Navbar() {
-  const session = await getServerSession(authOptions)
-  console.log(session)
+export default function Navbar() {
+  const { data } = useSession()
+
+  console.log(data)
 
   return (
     <div className="bg-secondary p-4">
@@ -13,12 +16,14 @@ export default async function Navbar() {
         <div className="flex items-center justify-between">
           <Link href="/">Logo</Link>
 
-          <nav className="space-x-4">
-            {session ? (
+          <nav className="flex items-center space-x-4">
+            {data ? (
               <>
+                <p>{data.user?.email}</p>
                 <Button asChild>
                   <Link href="/blogs/create">Write Blog</Link>
                 </Button>
+                <LogoutButton />
               </>
             ) : (
               <>
