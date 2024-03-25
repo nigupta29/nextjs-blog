@@ -13,9 +13,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { RegisterSchemaType, registerSchema } from "@/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useTransition } from "react"
 import { useForm } from "react-hook-form"
 
 export default function Register() {
+  const [isPending, startTransition] = useTransition()
+
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -33,6 +36,8 @@ export default function Register() {
     <CardWrapper
       heading="Create an account!"
       subheading="Enter your details below to conitnue."
+      label="Already have an account!"
+      href="/login"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -43,7 +48,12 @@ export default function Register() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="John Doe" {...field} />
+                  <Input
+                    {...field}
+                    type="email"
+                    placeholder="John Doe"
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -58,9 +68,10 @@ export default function Register() {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
+                    {...field}
                     type="email"
                     placeholder="john.doe@test.com"
-                    {...field}
+                    disabled={isPending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -75,14 +86,19 @@ export default function Register() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="*****" {...field} />
+                  <Input
+                    {...field}
+                    type="password"
+                    placeholder="*****"
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={isPending}>
             Register
           </Button>
         </form>

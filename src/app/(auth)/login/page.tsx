@@ -32,7 +32,9 @@ export default function Login() {
     <CardWrapper
       heading="Welcome back!"
       subheading="Enter your credentials below to conitnue."
-    >
+    label="Don't have an account?"
+    href="/register"
+  >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
