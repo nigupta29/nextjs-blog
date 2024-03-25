@@ -29,7 +29,7 @@ export default function CardWrapper({
   return (
     <Card className="mx-auto w-full max-w-xl">
       <CardHeader>
-        <div className="flex items-end justify-between">
+        <div className="flex items-center justify-between">
           <div>
             <CardTitle>{heading}</CardTitle>
             <CardDescription>{subheading}</CardDescription>

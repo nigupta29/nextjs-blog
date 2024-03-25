@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { RegisterSchemaType, registerSchema } from "@/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios"
 import { useTransition } from "react"
 import { useForm } from "react-hook-form"
 
@@ -22,14 +23,21 @@ export default function Register() {
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: ""
+      name: "Test",
+      email: "test@test.com",
+      password: "123456"
     }
   })
 
   const onSubmit = (values: RegisterSchemaType) => {
-    console.log(values)
+    startTransition(async () => {
+      try {
+        await axios.post("/api/register", values)
+        
+      } catch (error) {
+
+      }
+    })
   }
 
   return (
@@ -50,7 +58,7 @@ export default function Register() {
                 <FormControl>
                   <Input
                     {...field}
-                    type="email"
+                    type="text"
                     placeholder="John Doe"
                     disabled={isPending}
                   />
